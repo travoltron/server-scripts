@@ -2,24 +2,23 @@
 clear
 
 install() {
-	sudo su - root
 	cd $home
 	# Update the build
-	apt-get update
+	sudo apt-get update
 	#Download and install NGINX and additional modules
-	apt-get -y install build-essential zlib1g-dev libpcre3 libpcre3-dev libbz2-dev libssl-dev tar unzip
-	wget https://github.com/pagespeed/ngx_pagespeed/archive/master.zip
-	unzip master.zip
-	cd ngx_pagespeed-master
-	wget https://dl.google.com/dl/page-speed/psol/1.7.30.1.tar.gz
-	tar -xvzf 1.7.30.1.tar.gz
-	cd ../
-	wget https://github.com/agentzh/headers-more-nginx-module/archive/v0.24.tar.gz
-	tar -xvzf v0.24.tar.gz
-	wget http://nginx.org/download/nginx-1.7.2.tar.gz
-	tar -xvzf nginx-1.7.2.tar.gz
-	cd nginx-1.7.2
-	./configure \
+	sudo apt-get -y install build-essential zlib1g-dev libpcre3 libpcre3-dev libbz2-dev libssl-dev tar unzip
+	sudo wget https://github.com/pagespeed/ngx_pagespeed/archive/master.zip
+	sudo unzip master.zip
+	sudo cd ngx_pagespeed-master
+	sudo wget https://dl.google.com/dl/page-speed/psol/1.7.30.1.tar.gz
+	sudo tar -xvzf 1.7.30.1.tar.gz
+	sudo cd ../
+	sudo wget https://github.com/agentzh/headers-more-nginx-module/archive/v0.24.tar.gz
+	sudo tar -xvzf v0.24.tar.gz
+	sudo wget http://nginx.org/download/nginx-1.7.2.tar.gz
+	sudo tar -xvzf nginx-1.7.2.tar.gz
+	sudo cd nginx-1.7.2
+	sudo ./configure \
 		--prefix=/usr/share/nginx \
 		--sbin-path=/usr/sbin/nginx \
 		--conf-path=/etc/nginx/nginx.conf \
@@ -39,36 +38,36 @@ install() {
 		--add-module=$HOME/ngx_pagespeed-master \
 		--add-module=$HOME/headers-more-nginx-module-0.24 \
 		--with-file-aio \
-	make
-	make install
+	sudo make
+	sudo make install
 	# Autostart NGINX service
-	wget https://raw.githubusercontent.com/travoltron/server-scripts/master/nginx-restart.sh
-	mv nginx-restart.sh /etc/init.d/nginx
-	chmod +x /et/init.d/nginx
-	service nginx start
-	apt-get install chkconfig
-	chkconfig --add nginx
-	chkconfig nginx on
+	sudo wget https://raw.githubusercontent.com/travoltron/server-scripts/master/nginx-restart.sh
+	sudo mv nginx-restart.sh /etc/init.d/nginx
+	sudo chmod +x /et/init.d/nginx
+	sudo service nginx start
+	sudo apt-get install chkconfig
+	sudo chkconfig --add nginx
+	sudo chkconfig nginx on
 	# Install PHP5-FPM
-	apt-get install php5-fpm php5-cli php5-mcrypt
-	mkdir /var/www
-	mkdir /var/www/development /var/www/staging/ /var/www/production
-	cd /etc/nginx/sites-available
-	rm default
-	wget https://raw.githubusercontent.com/travoltron/server-scripts/master/laravel-nginx-default.txt
-	cp laravel-nginx-default.txt default
-	rm laravel-nginx-default.txt
+	sudo apt-get install php5-fpm php5-cli php5-mcrypt
+	sudo mkdir /var/www
+	sudo mkdir /var/www/development /var/www/staging/ /var/www/production
+	sudo cd /etc/nginx/sites-available
+	sudo rm default
+	sudo wget https://raw.githubusercontent.com/travoltron/server-scripts/master/laravel-nginx-default.txt
+	sudo cp laravel-nginx-default.txt default
+	sudo rm laravel-nginx-default.txt
 	# Secure PHP
-	sed -i -e 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php5/fpm/php.ini
-	sed -i -e 's/127.0.0.1:9000/\/var\/run\/php5-fpm.sock/g' /etc/php5/fpm/pool.d/www.conf
+	sudo sed -i -e 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php5/fpm/php.ini
+	sudo sed -i -e 's/127.0.0.1:9000/\/var\/run\/php5-fpm.sock/g' /etc/php5/fpm/pool.d/www.conf
 	# Restart
-	service php5-fpm restart
-	service nginx restart
+	sudo service php5-fpm restart
+	sudo service nginx restart
 	# Install Composer
-	curl -sS https://getcomposer.org/installer | php
-	mv composer.phar /usr/local/bin/composer
+	sudo curl -sS https://getcomposer.org/installer | php
+	sudo mv composer.phar /usr/local/bin/composer
 	# Git 
-	apt-get install git
+	sudo apt-get install git
 }
 
 echo -e "The following software will be installed with this script:\n\tNGINX -v 1.6.0\n\tPHP5-FPM -v 5.5\n\tGit"
