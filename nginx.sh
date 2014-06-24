@@ -46,8 +46,26 @@ install() {
 	sudo apt-get install chkconfig
 	sudo chkconfig --add nginx
 	sudo chkconfig nginx on
-	
-
+	# Install PHP5-FPM
+	sudo apt-get install php5-fpm php5-cli php5-mcrypt
+	mkdir /var/www
+	mkdir /var/www/development /var/www/staging/ /var/www/production
+	cd /etc/nginx/sites-available
+	rm default
+	wget https://raw.githubusercontent.com/travoltron/server-scripts/master/laravel-nginx-default.txt
+	cp laravel-nginx-default.txt default
+	rm laravel-nginx-default.txt
+	# Secure PHP
+	sed -i -e 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php5/fpm/php.ini
+	sed -i -e 's/127.0.0.1:9000/\/var\/run\/php5-fpm.sock/g' /etc/php5/fpm/pool.d/www.conf
+	# Restart
+	service php5-fpm restart
+	service nginx restart
+	# Install Composer
+	curl -sS https://getcomposer.org/installer | php
+	mv composer.phar /usr/local/bin/composer
+	# Git 
+	sudo apt-get install git
 }
 
 echo -e "The following software will be installed with this script:\n\tNGINX -v 1.6.0\n\tPHP5-FPM -v 5.5\n\tGit"
