@@ -2,7 +2,9 @@
 clear
 
 install() {
-	cd /home/root
+	cd $home
+	# Update the build
+	sudo apt-get update
 	#Download and install NGINX and additional modules
 	sudo apt-get -y install build-essential zlib1g-dev libpcre3 libpcre3-dev libbz2-dev libssl-dev tar unzip
 	wget https://github.com/pagespeed/ngx_pagespeed/archive/master.zip
