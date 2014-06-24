@@ -3,7 +3,7 @@ clear
 
 install() {
 	cd /home/root
-	#Download and install tools for the NGINX modules we need to make the server fast
+	#Download and install NGINX and additional modules
 	sudo apt-get -y install build-essential zlib1g-dev libpcre3 libpcre3-dev libbz2-dev libssl-dev tar unzip
 	wget https://github.com/pagespeed/ngx_pagespeed/archive/master.zip
 	unzip master.zip
@@ -38,6 +38,16 @@ install() {
 		--with-file-aio \
 	make
 	sudo make install
+	# Autostart NGINX service
+	wget https://raw.githubusercontent.com/travoltron/server-scripts/master/nginx-restart.sh
+	sudo mv nginx-restart.sh /etc/init.d/nginx
+	sudo chmod +x /et/init.d/nginx
+	sudo service nginx start
+	sudo apt-get install chkconfig
+	sudo chkconfig --add nginx
+	sudo chkconfig nginx on
+	
+
 }
 
 echo -e "The following software will be installed with this script:\n\tNGINX -v 1.6.0\n\tPHP5-FPM -v 5.5\n\tGit"

@@ -46,6 +46,7 @@
 # COPYRIGHT:  Copyright (c) 2013 Richard Fussenegger
 # LICENSE:    http://unlicense.org/ PD
 # LINK:       http://richard.fussenegger.info/
+# EDITED BY:  Ben Warburton <https://github.com/travoltron/>
 # -----------------------------------------------------------------------------
 
 
