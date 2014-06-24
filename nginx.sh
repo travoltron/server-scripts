@@ -7,18 +7,19 @@ install() {
 	sudo apt-get update
 	#Download and install NGINX and additional modules
 	sudo apt-get -y install build-essential zlib1g-dev libpcre3 libpcre3-dev libbz2-dev libssl-dev tar unzip
-	sudo wget https://github.com/pagespeed/ngx_pagespeed/archive/master.zip
-	sudo unzip master.zip
-	sudo cd ngx_pagespeed-master
-	sudo wget https://dl.google.com/dl/page-speed/psol/1.7.30.1.tar.gz
-	sudo tar -xvzf 1.7.30.1.tar.gz
+	NPS_VERSION=1.8.31.4
+	sudo wget https://github.com/pagespeed/ngx_pagespeed/archive/release-${NPS_VERSION}-beta.zip
+	sudo unzip release-${NPS_VERSION}-beta.zip
+	sudo cd ngx_pagespeed-release-${NPS_VERSION}-beta/
+	sudo wget https://dl.google.com/dl/page-speed/psol/${NPS_VERSION}.tar.gz
+	sudo tar -xzvf ${NPS_VERSION}.tar.gz
 	sudo cd ../
 	sudo wget https://github.com/agentzh/headers-more-nginx-module/archive/v0.24.tar.gz
 	sudo tar -xvzf v0.24.tar.gz
 	sudo wget http://nginx.org/download/nginx-1.7.2.tar.gz
 	sudo tar -xvzf nginx-1.7.2.tar.gz
 	sudo cd nginx-1.7.2
-	sudo ./configure --prefix=/usr/share/nginx --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --pid-path=/var/run/nginx.pid --lock-path=/var/lock/nginx.lock --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/access.log --user=www-data --group=www-data --without-mail_pop3_module --without-mail_imap_module --without-mail_smtp_module --with-http_stub_status_module --with-http_ssl_module --with-http_spdy_module --with-http_gzip_static_module --add-module=$HOME/ngx_pagespeed-master --add-module=$HOME/headers-more-nginx-module-0.24 --with-file-aio
+	sudo ./configure --prefix=/usr/share/nginx --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --pid-path=/var/run/nginx.pid --lock-path=/var/lock/nginx.lock --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/access.log --user=www-data --group=www-data --without-mail_pop3_module --without-mail_imap_module --without-mail_smtp_module --with-http_stub_status_module --with-http_ssl_module --with-http_spdy_module --with-http_gzip_static_module --add-module=$HOME/ngx_pagespeed-release-${NPS_VERSION}-beta --add-module=$HOME/headers-more-nginx-module-0.24 --with-file-aio
 	sudo make
 	sudo make install
 	# Autostart NGINX service
