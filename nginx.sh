@@ -18,26 +18,7 @@ install() {
 	sudo wget http://nginx.org/download/nginx-1.7.2.tar.gz
 	sudo tar -xvzf nginx-1.7.2.tar.gz
 	sudo cd nginx-1.7.2
-	sudo ./configure \
-		--prefix=/usr/share/nginx \
-		--sbin-path=/usr/sbin/nginx \
-		--conf-path=/etc/nginx/nginx.conf \
-		--pid-path=/var/run/nginx.pid \
-		--lock-path=/var/lock/nginx.lock \
-		--error-log-path=/var/log/nginx/error.log \
-		--http-log-path=/var/log/access.log \
-		--user=www-data \
-		--group=www-data \
-		--without-mail_pop3_module \
-		--without-mail_imap_module \
-		--without-mail_smtp_module \
-        	--with-http_stub_status_module \
-		--with-http_ssl_module \
-		--with-http_spdy_module \
-		--with-http_gzip_static_module \
-		--add-module=$HOME/ngx_pagespeed-master \
-		--add-module=$HOME/headers-more-nginx-module-0.24 \
-		--with-file-aio \
+	sudo ./configure --prefix=/usr/share/nginx --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --pid-path=/var/run/nginx.pid --lock-path=/var/lock/nginx.lock --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/access.log --user=www-data --group=www-data --without-mail_pop3_module --without-mail_imap_module --without-mail_smtp_module --with-http_stub_status_module --with-http_ssl_module --with-http_spdy_module --with-http_gzip_static_module --add-module=$HOME/ngx_pagespeed-master --add-module=$HOME/headers-more-nginx-module-0.24 --with-file-aio
 	sudo make
 	sudo make install
 	# Autostart NGINX service
