@@ -2,11 +2,12 @@
 clear
 
 install() {
+	sudo su - root
 	cd $home
 	# Update the build
-	sudo apt-get update
+	apt-get update
 	#Download and install NGINX and additional modules
-	sudo apt-get -y install build-essential zlib1g-dev libpcre3 libpcre3-dev libbz2-dev libssl-dev tar unzip
+	apt-get -y install build-essential zlib1g-dev libpcre3 libpcre3-dev libbz2-dev libssl-dev tar unzip
 	wget https://github.com/pagespeed/ngx_pagespeed/archive/master.zip
 	unzip master.zip
 	cd ngx_pagespeed-master
@@ -39,17 +40,17 @@ install() {
 		--add-module=$HOME/headers-more-nginx-module-0.24 \
 		--with-file-aio \
 	make
-	sudo make install
+	make install
 	# Autostart NGINX service
 	wget https://raw.githubusercontent.com/travoltron/server-scripts/master/nginx-restart.sh
-	sudo mv nginx-restart.sh /etc/init.d/nginx
-	sudo chmod +x /et/init.d/nginx
-	sudo service nginx start
-	sudo apt-get install chkconfig
-	sudo chkconfig --add nginx
-	sudo chkconfig nginx on
+	mv nginx-restart.sh /etc/init.d/nginx
+	chmod +x /et/init.d/nginx
+	service nginx start
+	apt-get install chkconfig
+	chkconfig --add nginx
+	chkconfig nginx on
 	# Install PHP5-FPM
-	sudo apt-get install php5-fpm php5-cli php5-mcrypt
+	apt-get install php5-fpm php5-cli php5-mcrypt
 	mkdir /var/www
 	mkdir /var/www/development /var/www/staging/ /var/www/production
 	cd /etc/nginx/sites-available
@@ -67,7 +68,7 @@ install() {
 	curl -sS https://getcomposer.org/installer | php
 	mv composer.phar /usr/local/bin/composer
 	# Git 
-	sudo apt-get install git
+	apt-get install git
 }
 
 echo -e "The following software will be installed with this script:\n\tNGINX -v 1.6.0\n\tPHP5-FPM -v 5.5\n\tGit"
