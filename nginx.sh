@@ -29,6 +29,26 @@ install() {
 	sudo mv composer.phar /usr/local/bin/composer
 	# Git 
 	sudo apt-get install git
+
+	clear
+
+	read -p "Press [Enter] key to configure the Git credentials..."
+	gitsetup
+}
+
+gitsetup() {
+	echo -e "Enter your email address for your Github account, followed by [ENTER]:"
+	read email
+	ssh-keygen -t rsa -C "$email"
+	echo -e "Copy and paste the public RSA key into Github."
+
+	clear 
+	read -p "Press [Enter] key to configure NGINX..."
+	nginxsetup
+}
+nginxsetup() {
+	sudo nano /etc/nginx/nginx.conf
+	
 }
 
 echo -e "The following software will be installed with this script:\n\tNGINX -v 1.6.0\n\tPHP5-FPM -v 5.5\n\tGit"
