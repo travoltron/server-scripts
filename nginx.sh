@@ -7,26 +7,12 @@ install() {
 	sudo apt-get update
 	#Download and install NGINX and additional modules
 	sudo apt-get -y install build-essential zlib1g-dev libpcre3 libpcre3-dev libbz2-dev libssl-dev tar unzip
-	sudo wget https://github.com/agentzh/headers-more-nginx-module/archive/v0.24.tar.gz
-	sudo tar -xvzf v0.24.tar.gz
-	sudo wget http://nginx.org/download/nginx-1.7.2.tar.gz
-	sudo tar -xvzf nginx-1.7.2.tar.gz
-	sudo cd nginx-1.7.2
-	sudo ./configure --prefix=/usr/share/nginx --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --pid-path=/var/run/nginx.pid --lock-path=/var/lock/nginx.lock --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/access.log --user=www-data --group=www-data --without-mail_pop3_module --without-mail_imap_module --without-mail_smtp_module --with-http_stub_status_module --with-http_ssl_module --with-http_spdy_module --with-http_gzip_static_module --add-module=$HOME/headers-more-nginx-module-0.24 --with-file-aio
-	sudo make
-	sudo make install
-	# Autostart NGINX service
-	sudo wget https://raw.githubusercontent.com/travoltron/server-scripts/master/nginx-restart.sh
-	sudo mv nginx-restart.sh /etc/init.d/nginx
-	sudo chmod +x /et/init.d/nginx
-	sudo service nginx start
-	sudo apt-get install chkconfig
-	sudo chkconfig --add nginx
-	sudo chkconfig nginx on
+	sudo add-apt-repository ppa:nginx/development
+	sudo apt-get update
+	sudo apt-get install nginx
 	# Install PHP5-FPM
 	sudo apt-get install php5-fpm php5-cli php5-mcrypt
-	sudo mkdir /var/www
-	sudo mkdir /var/www/development /var/www/staging/ /var/www/production
+	sudo mkdir -p {/var/www/development,/var/www/staging,/var/www/production}
 	sudo cd /etc/nginx/sites-available
 	sudo rm default
 	sudo wget https://raw.githubusercontent.com/travoltron/server-scripts/master/laravel-nginx-default.txt
